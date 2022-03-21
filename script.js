@@ -1,88 +1,108 @@
 stack = Array();
 flag = 1;
-num = ''
+number = ''
 
 function cal(value) {
- 
-    console.log('val',value)
-    
-   
-    console.log('numfirst',num)
-    
-    
-    // return 
 
-    if (isNaN(value)) {
-        flag = 2;
-        num=''
-        operation = value;
-        console.log(operation);
-        if(operation=="AC"){
-            stack =[]
-            num=''
-            flag =1
-        }
-    }
-    // console.log(flag);
-    if(!isNaN(value)){
-        num+=value
-    }
     if (!isNaN(value)) {
-        // num+=value
-        console.log('num',num)
-        stack.push(value);
-        document.getElementById('var').innerHTML = value
-        document.getElementById('result').innerHTML = value
-        console.log('ht',stack.length)
-        console.log('flag',flag);
-        if (stack.length > 1 && flag == 1) {
-            console.log('ui')
-            stack.shift(num);
-        }
+        number += value
     }
-    if (stack.length == 3) {
-        console.log('empty')
-        stack = [];
-        num=''
-        flag =1
+   
+    document.getElementById('var').innerHTML = number
+    
+
+    // console.log('number',number)
+    if (isNaN(value)) {
+        operation = value
+        if (number != '') {
+            stack.push(number)
+        }
+        if (isNaN(stack[2])) {
+            stack.splice(1, 1)
+            // stack.push(operation)
+        }
+        stack.push(operation)
+
+        if (stack.length == 2 && operation == '=') {
+            stack.splice(1, 1)
+        }
+        if (stack.length == 1 && isNaN(stack[0])) {
+            stack.pop()
+            console.log('lhasfdho', (stack[0]))
+        }
+
+
+        number = ''
+        if (operation == 'AC') {
+            stack = []
+        }
+
     }
 
-    if (flag == 2 && stack.length == 2) {
-        switch (operation) {
+
+    console.log('number', number)
+    console.log(stack)
+    if (stack.length > 3 || (stack.length > 3 && stack[3] == '=')) {
+        switch (stack[1]) {
             case "+":
-                
-                sum = stack[0] + stack[1]
-                document.getElementById('result').innerHTML = sum
-                console.log("add", stack[0] + stack[1]);
+                sum = (Number(stack[0]) + Number(stack[2]))
+                console.log('sum', sum)
+                operator = stack[stack.length - 1]
+                console.log('operator', operator)
                 stack = []
-                stack.push(sum);
-                break;
-            case "-":
-                sub = stack[0] - stack[1]
-                console.log("sub", stack[0] - stack[1]);
+                stack.push(sum)
+                if (operator != '=') {
+                    stack.push(operator)
+                }
+                break
+
+            case '-':
+                sub = (Number(stack[0]) - Number(stack[2]))
+                console.log('sub', sub)
+                operator = stack[stack.length - 1]
+                console.log('operator', operator)
                 stack = []
-                stack.push(sub);
-                break;
-            case "X":
-                mul = stack[0] * stack[1]
-                console.log("mul", stack[0] * stack[1]);
+                stack.push(sub)
+                if (operator != '=') {
+                    stack.push(operator)
+                }
+                break
+
+            case 'X':
+                mul = (Number(stack[0]) * Number(stack[2]))
+                operator = stack[stack.length - 1]
+                console.log('operator', operator)
                 stack = []
-                stack.push(mul);
-                break;
-            case "/":
-                div = stack[0] / stack[1]
-                console.log("divide", stack[0] / stack[1]);
+                stack.push(mul)
+                if (operator != '=') {
+                    stack.push(operator)
+                }
+                break
+            case '/':
+                div = (Number(stack[0]) / Number(stack[2]))
+                operator = stack[stack.length - 1]
+                console.log('operator', operator)
                 stack = []
-                stack.push(div);
-                break;
-            case "%":
-                per = stack[0] % stack[1]
-                console.log("perc", stack[0] % stack[1]);
+                stack.push(div)
+                if (operator != '=') {
+                    stack.push(operator)
+                }
+                break
+
+            case '%':
+                per = (Number(stack[0]) % Number(stack[2]))
+                operator = stack[stack.length - 1]
+                console.log('operator', operator)
                 stack = []
-                stack.push(per);
-                break;
-           
+                stack.push(per)
+                if (operator != '=') {
+                    stack.push(operator)
+                }
+                break
+
         }
+        console.log(stack)
+        document.getElementById('result').innerHTML = stack[0]
+
     }
-    console.log(stack);
 }
